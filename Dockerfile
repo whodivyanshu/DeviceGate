@@ -18,7 +18,8 @@ ENV NODE_ENV=production \
 # Full install (not standalone output) so the admin and device CLIs run inside the container.
 COPY --from=build --chown=node:node /app ./
 RUN mkdir -p /app/data && chown node:node /app/data
+# Mount a volume at /app/data (docker-compose.yml declares one). No VOLUME instruction: Railway
+# rejects it and attaches its own volume there instead.
 USER node
-VOLUME /app/data
 EXPOSE 3000
 CMD ["bun", "run", "start"]
